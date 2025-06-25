@@ -1,35 +1,46 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from "react";
+import data from "./data";
 
-function App() {
-  const [count, setCount] = useState(0)
+const App = () => {
+  const [text, setText] = useState(data);
+  const [count, setCount] = useState(0);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    let amount = parseInt(count);
+    if (amount > 8) amount = 8;
+    if (amount <= 0) amount = 1;
+
+    setText(data.slice(0, amount));
+  };
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <section className='section'>
+      <div className='section-center'>
+        <h3>tired of boring lorem ipsum?</h3>
+        <form onSubmit={handleSubmit} className='lorem-form '>
+          <label htmlFor='amount'>Paragraph:</label>
+          <input
+            className=''
+            type='number'
+            name='amount'
+            id='amount'
+            value={count}
+            onChange={(e) => setCount(e.target.value)}
+          />
+          <button className='btn' type='submit'>
+            Generate
+          </button>
+        </form>
+        <article className='lorem-text'>
+          {text.map((textPara, textIndex) => (
+            <p key={textIndex}>{textPara}</p>
+          ))}
+        </article>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+    </section>
+  );
+};
 
-export default App
+export default App;
